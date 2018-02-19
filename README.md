@@ -28,17 +28,18 @@ Before going to use this repo, let me warn about something. You will have no int
     python set_hand_hist.py
   2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program you will have to enter the gesture number and gesture name/text. Since no checks are implemented here I suggest you do this carefully. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will a green window inside which you will have to do your gesture and a counter.
 
-    python create_gestures.py
-    
+    python create_gestures.py    
 3. Press 'c' when you are ready with your gesture. Capturing gesture will begin after a few seconds. Move your hand a little bit here and there. After the counter reaches 1200 the window will close automatically.
-4. When you are done adding new gestures run the load_images.py file once.
+  4. When you are done adding new gestures run the load_images.py file once. You do not need to run this file again until and unless you add a new gesture.
+    
+    python load_images.py
+5. Do not forget to update the num_of_classes variable in cnn_tf.py and cnn_keras.py file if add any new gestures.
 
 ### Training a model
   1. So training can be done with either Tensorflow or Keras. If you want to train using Tensorflow then run the cnn_tf.py file. If you want to train using Keras then use the cnn_keras.py file.
   
     python cnn_tf.py
     python cnn_keras.py
-
 2. If you use Tensorflow you will have the checkpoints and the metagraph file in the tmp/cnn_model3 folder.
 3. If you use Keras you will have the model in the root directory by the name cnn_keras2.h5.
 
