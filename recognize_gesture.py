@@ -1,7 +1,7 @@
 import cv2, pickle
 import numpy as np
 import tensorflow as tf
-from cnn_2 import cnn_model_fn
+from cnn_tf import cnn_model_fn
 import os, thread
 import sqlite3
 from keras.models import load_model
@@ -102,7 +102,8 @@ def recognize():
 		old_text = text
 		if len(contours) > 0:
 			contour = max(contours, key = cv2.contourArea)
-			if cv2.contourArea(contour) > 3000:
+			print(cv2.contourArea(contour))
+			if cv2.contourArea(contour) > 10000:
 				x1, y1, w1, h1 = cv2.boundingRect(contour)
 				save_img = thresh[y1:y1+h1, x1:x1+w1]
 				if w1 > h1:
@@ -116,7 +117,7 @@ def recognize():
 				print(classes, probabilities)'''
 				#thread.start_new_thread(predict, (classifier, save_img))
 				pred_probab, pred_class = keras_predict(model, save_img)
-				if pred_probab*100 > 95:
+				if pred_probab*100 > 98:
 					text = get_pred_text_from_db(pred_class)
 		blackboard = np.zeros((480, 640, 3), dtype=np.uint8)
 		splitted_text = split_sentence(text, 2)

@@ -15,7 +15,7 @@ There are a lot of details that I left. But these are the basic and main steps.
 2. <a href="keras.io">Keras</a>
 3. OpenCV 3.4
 4. h5py
-5. A good grasp over the above 5 topics along with neural networks. Refer to the internet if you have problems with those.
+5. A good grasp over the above 5 topics along with neural networks. Refer to the internet if you have problems with those. I myself am just a begineer in those.
 6. A good CPU (preferably with a GPU).
 7. Patience.... A lot of it.
 

@@ -65,7 +65,7 @@ def store_images(g_id):
 
 		if len(contours) > 0:
 			contour = max(contours, key = cv2.contourArea)
-			if cv2.contourArea(contour) > 3000 and frames > 50:
+			if cv2.contourArea(contour) > 10000 and frames > 50:
 				x1, y1, w1, h1 = cv2.boundingRect(contour)
 				pic_no += 1
 				save_img = thresh[y1:y1+h1, x1:x1+w1]
