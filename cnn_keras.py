@@ -14,7 +14,7 @@ from keras import backend as K
 K.set_image_dim_ordering('tf')
 
 def cnn_model():
-	num_of_classes = 11
+	num_of_classes = 27
 	model = Sequential()
 	model.add(Conv2D(32, (5,5), input_shape=(30, 30, 1), activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
@@ -48,9 +48,9 @@ def train():
 	test_labels = np_utils.to_categorical(test_labels)
 
 	model, callbacks_list = cnn_model()
-	model.fit(train_images, train_labels, validation_data=(test_images, test_labels), epochs=300, batch_size=100, callbacks=callbacks_list)
+	model.fit(train_images, train_labels, validation_data=(test_images, test_labels), epochs=600, batch_size=100, callbacks=callbacks_list)
 	scores = model.evaluate(test_images, test_labels, verbose=0)
 	print("CNN Error: %.2f%%" % (100-scores[1]*100))
-	#model.save('cnn_model_keras2.h5')
+	model.save('cnn_model_keras2.h5')
 
 train()

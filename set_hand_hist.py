@@ -20,7 +20,7 @@ def build_squares(img):
 
 def get_hand_hist():
 	cam = cv2.VideoCapture(1)
-	x, y, w, h = 420, 140, 20, 20
+	x, y, w, h = 300, 100, 300, 300
 	flagPressedC, flagPressedS = False, False
 	while True:
 		img = cam.read()[1]
@@ -49,6 +49,7 @@ def get_hand_hist():
 			cv2.imshow("Thresh", thresh)
 		if not flagPressedS:
 			imgCrop = build_squares(img)
+		#cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0), 2)
 		cv2.imshow("Set hand histogram", img)
 	cam.release()
 	cv2.destroyAllWindows()

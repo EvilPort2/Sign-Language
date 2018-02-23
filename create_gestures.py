@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import pickle, os
+import pickle, os, sqlite3
 
 def get_hand_hist():
 	with open("hist", "rb") as f:
@@ -30,10 +30,11 @@ def create_empty_images(folder_name, n_images):
 
 def store_in_db(g_id, g_name):
 	conn = sqlite3.connect("gesture_db.db")
-	cmd = "INSERT INTO gesture (g_id, g_name) VALUES (%s, \"%s\")" % (g_id, g_name)
+	cmd = "INSERT INTO gesture (g_id, g_name) VALUES (%s, \'%s\')" % (g_id, g_name)
+	print(cmd)
 	conn.execute(cmd)
 	conn.commit()
-
+	
 def store_images(g_id):
 	total_pics = 1200
 	if g_id == str(0):
@@ -52,7 +53,7 @@ def store_images(g_id):
 		img = cam.read()[1]
 		img = cv2.flip(img, 1)
 		imgCrop = img[y:y+h, x:x+w]
-		imgHSV = cv2.cvtColor(imgCrop, cv2.COLOR_BGR2HSV)
+		imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		dst = cv2.calcBackProject([imgHSV], [0, 1], hist, [0, 180, 0, 256], 1)
 		disc = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(10,10))
 		cv2.filter2D(dst,-1,disc,dst)
@@ -61,6 +62,7 @@ def store_images(g_id):
 		thresh = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)[1]
 		thresh = cv2.merge((thresh,thresh,thresh))
 		thresh = cv2.cvtColor(thresh, cv2.COLOR_BGR2GRAY)
+		thresh = thresh[y:y+h, x:x+w]
 		contours = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[1]
 
 		if len(contours) > 0:
@@ -83,7 +85,11 @@ def store_images(g_id):
 		cv2.imshow("thresh", thresh)
 		keypress = cv2.waitKey(1)
 		if keypress == ord('c'):
-			flag_start_capturing = True
+			if flag_start_capturing == False:
+				flag_start_capturing = True
+			else:
+				flag_start_capturing = False
+				frames = 0
 		if flag_start_capturing == True:
 			frames += 1
 		if pic_no == total_pics:
@@ -92,4 +98,5 @@ def store_images(g_id):
 init_create_folder_database()
 g_id = input("Enter gesture no.: ")
 g_name = input("Enter gesture name/text: ")
+store_in_db(g_id, g_name)
 store_images(g_id)
