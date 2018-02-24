@@ -52,6 +52,8 @@ Before using this repo, let me warn about something. You will have no interactiv
 2. If you use Tensorflow you will have the checkpoints and the metagraph file in the tmp/cnn_model3 folder.
 3. If you use Keras you will have the model in the root directory by the name cnn_keras2.h5.
 
+You do not need to retrain your model every time. In case you added or removed a gesture then you need to retrain it.
+
 ### Recognizing gestures
 Before going into much details I would like to tell that I was not able to use the model trained using tensorflow. That is because I do not know how to use it. I tried using the predict() function of the Estimator API but that loads the parameters into memory every time it is called which is a huge overhead. Please help me if you can with this. The functions for prediction using tf is tf_predict() which you will find in the recognize_gesture.py file but it is never used.
 This is why I ended up using Keras' model, as the loading the model into memory and using it for prediction is super easy.
