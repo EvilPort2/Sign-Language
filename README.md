@@ -2,7 +2,7 @@
 A very simple CNN project.
 
 ## What I did here
-1. The first thing I did was, I created 10 gesture samples using OpenCV. For each gesture I captured 1200 images which were 30x30 pixels. All theses images were in grayscale which is stored in the gestures/ folder. The gestures/0/ folder contains 1200 blank images which signify "none" gesture. Also I realised that keeping this category increased my model's accuracy to 99% from a laughable 82%.
+1. The first thing I did was, I created 10 gesture samples using OpenCV. For each gesture I captured 1200 images which were 50x50 pixels. All theses images were in grayscale which is stored in the gestures/ folder. The gestures/0/ folder contains 1200 blank images which signify "none" gesture. Also I realised that keeping this category increased my model's accuracy to 99% from a laughable 82%.
 2. Learned what a CNN is and how it works. Best resources were <a href="https://www.tensorflow.org/get_started/">Tensorflow's official website</a> and <a href="https://machinelearningmastery.net">machinelearningmastery.net</a>.
 3. Created a CNN which look a lot similar to <a href="https://www.tensorflow.org/tutorials/layers">this MNIST classifying model</a> using both Tensorflow and Keras. If you want to add more gestures you might need to add your own layers and also tweak some parameters, that you have to do on your own.
 4. Then used the model which was trained using Keras on a video stream.
@@ -30,7 +30,7 @@ Before using this repo, let me warn about something. You will have no interactiv
   2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
 
     python create_gestures.py    
-3. Press 'c' when you are ready with your gesture. Capturing gesture will begin after a few seconds. Move your hand a little bit here and there. You can pause capturing by pressing 'c' and resume it by pressing 'c'. Capturing resumes after a few seconds. After the counter reaches 1200 the window will close automatically.
+3. Press 'c' when you are ready with your gesture. Capturing gesture will begin after a few seconds. Move your hand a little bit here and there. You can pause capturing by pressing 'c' and resume it by pressing 'c'. Capturing resumes after a few secondAfter the counter reaches 1200 the window will close automatically.
   4. When you are done adding new gestures run the load_images.py file once. You do not need to run this file again until and unless you add a new gesture.
     
     python load_images.py
