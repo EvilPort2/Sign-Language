@@ -10,6 +10,9 @@ A very simple CNN project.
 
 There are a lot of details that I left. But these are the basic and main steps.
 
+## Outcome
+Watch it <a href="https://youtu.be/JNZ7oFaH1fg">here</a>.
+
 ## Requirements
 0. Python 3.x
 1. <a href="https://tensorflow.org">Tensorflow 1.5</a>
