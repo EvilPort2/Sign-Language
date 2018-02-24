@@ -2,7 +2,7 @@ import cv2, pickle
 import numpy as np
 import tensorflow as tf
 from cnn_tf import cnn_model_fn
-import os, thread
+import os
 import sqlite3
 from keras.models import load_model
 
@@ -12,8 +12,14 @@ classifier = tf.estimator.Estimator(model_dir="tmp/cnn_model2", model_fn=cnn_mod
 prediction = None
 model = load_model('cnn_model_keras2.h5')
 
+def get_image_size():
+	img = cv2.imread('gestures/0/100.jpg', 0)
+	return img.shape
+
+image_x, image_y = get_image_size()
+
 def tf_process_image(img):
-	img = cv2.resize(img, (30, 30))
+	img = cv2.resize(img, (image_x, image_y))
 	img = np.array(img, dtype=np.float32)
 	np_array = np.array(img)
 	return np_array
@@ -30,9 +36,9 @@ def tf_predict(classifier, image):
 	print(prediction)
 
 def keras_process_image(img):
-	img = cv2.resize(img, (30, 30))
+	img = cv2.resize(img, (image_x, image_y))
 	img = np.array(img, dtype=np.float32)
-	img = np.reshape(img, (1, 30, 30, 1))
+	img = np.reshape(img, (1, image_x, image_y, 1))
 	return img
 
 def keras_predict(model, image):
@@ -135,4 +141,4 @@ def recognize():
 			break
 
 		
-recognize()		
+recognize()

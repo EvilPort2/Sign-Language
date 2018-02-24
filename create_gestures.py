@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import pickle, os, sqlite3
 
+image_x, image_y = 50, 50
+
 def get_hand_hist():
 	with open("hist", "rb") as f:
 		hist = pickle.load(f)
@@ -9,7 +11,6 @@ def get_hand_hist():
 
 def init_create_folder_database():
 	# create the folder and database if not exist
-	global conn
 	if not os.path.exists("gestures"):
 		os.mkdir("gestures")
 	if not os.path.exists("gesture_db.db"):
@@ -24,15 +25,23 @@ def create_folder(folder_name):
 
 def create_empty_images(folder_name, n_images):
 	create_folder("gestures/"+folder_name)
-	black = np.zeros(shape=(30,30,1), dtype=np.uint8)
+	black = np.zeros(shape=(image_x, image_y, 1), dtype=np.uint8)
 	for i in range(n_images):
 		cv2.imwrite("gestures/"+folder_name+"/"+str(i+1)+".jpg", black)
 
 def store_in_db(g_id, g_name):
 	conn = sqlite3.connect("gesture_db.db")
 	cmd = "INSERT INTO gesture (g_id, g_name) VALUES (%s, \'%s\')" % (g_id, g_name)
-	print(cmd)
-	conn.execute(cmd)
+	try:
+		conn.execute(cmd)
+	except sqlite3.IntegrityError:
+		choice = input("g_id already exists. Want to change the record? (y/n): ")
+		if choice.lower() == 'y':
+			cmd = "UPDATE gesture SET g_name = \'%s\' WHERE g_id = %s" % (g_name, g_id)
+			conn.execute(cmd)
+		else:
+			print("Doing nothing...")
+			return
 	conn.commit()
 	
 def store_images(g_id):
@@ -75,7 +84,7 @@ def store_images(g_id):
 					save_img = cv2.copyMakeBorder(save_img, int((w1-h1)/2) , int((w1-h1)/2) , 0, 0, cv2.BORDER_CONSTANT, (0, 0, 0))
 				elif h1 > w1:
 					save_img = cv2.copyMakeBorder(save_img, 0, 0, int((h1-w1)/2) , int((h1-w1)/2) , cv2.BORDER_CONSTANT, (0, 0, 0))
-				save_img = cv2.resize(save_img, (30, 30))
+				save_img = cv2.resize(save_img, (image_x, image_y))
 				cv2.putText(img, "Capturing...", (30, 60), cv2.FONT_HERSHEY_TRIPLEX, 2, (127, 255, 255))
 				cv2.imwrite("gestures/"+str(g_id)+"/"+str(pic_no)+".jpg", save_img)
 

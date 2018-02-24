@@ -6,6 +6,7 @@ A very simple CNN project.
 2. Learned what a CNN is and how it works. Best resources were <a href="https://www.tensorflow.org/get_started/">Tensorflow's official website</a> and <a href="https://machinelearningmastery.net">machinelearningmastery.net</a>.
 3. Created a CNN which look a lot similar to <a href="https://www.tensorflow.org/tutorials/layers">this MNIST classifying model</a> using both Tensorflow and Keras. If you want to add more gestures you might need to add your own layers and also tweak some parameters, that you have to do on your own.
 4. Then used the model which was trained using Keras on a video stream.
+5. As of today, I have stored the 26 gestures for alphabets of American Sign language. And trained the model on these images.
 
 There are a lot of details that I left. But these are the basic and main steps.
 
@@ -26,14 +27,19 @@ Before using this repo, let me warn about something. You will have no interactiv
   1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions 2-9 <a href="https://github.com/EvilPort2/Simple-OpenCV-Calculator/blob/master/README.md">here</a>.
     
     python set_hand_hist.py
-  2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Since no checks are implemented here I suggest you do this carefully. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
+  2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
 
     python create_gestures.py    
-3. Press 'c' when you are ready with your gesture. Capturing gesture will begin after a few seconds. Move your hand a little bit here and there. After the counter reaches 1200 the window will close automatically.
+3. Press 'c' when you are ready with your gesture. Capturing gesture will begin after a few seconds. Move your hand a little bit here and there. You can pause capturing by pressing 'c' and resume it by pressing 'c'. Capturing resumes after a few seconds. After the counter reaches 1200 the window will close automatically.
   4. When you are done adding new gestures run the load_images.py file once. You do not need to run this file again until and unless you add a new gesture.
     
     python load_images.py
 5. Do not forget to update the num_of_classes variable in cnn_tf.py and cnn_keras.py file if you add any new gestures.
+
+### Displaying all gestures
+  1. To see all the gestures that are stored in 'gestures/' folder run this command
+    
+    python display_all_gestures.py
 
 ### Training a model
   1. So training can be done with either Tensorflow or Keras. If you want to train using Tensorflow then run the cnn_tf.py file. If you want to train using Keras then use the cnn_keras.py file.

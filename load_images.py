@@ -26,7 +26,7 @@ def split_images_labels(images_labels):
 	return images, labels
 
 images_labels = pickle_images_labels()
-images_labels = shuffle(images_labels)
+images_labels = shuffle(shuffle(shuffle(images_labels)))
 images, labels = split_images_labels(images_labels)
 
 train_images = images[:int(5/6*len(images))]
