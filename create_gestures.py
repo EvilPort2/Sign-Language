@@ -61,7 +61,6 @@ def store_images(g_id):
 	while True:
 		img = cam.read()[1]
 		img = cv2.flip(img, 1)
-		imgCrop = img[y:y+h, x:x+w]
 		imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		dst = cv2.calcBackProject([imgHSV], [0, 1], hist, [0, 180, 0, 256], 1)
 		disc = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(10,10))

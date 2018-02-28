@@ -105,8 +105,6 @@ def recognize():
 		thresh = cv2.cvtColor(thresh, cv2.COLOR_BGR2GRAY)
 		thresh = thresh[y:y+h, x:x+w]
 		contours = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[1]
-		text = ""
-		old_text = text
 		if len(contours) > 0:
 			contour = max(contours, key = cv2.contourArea)
 			#print(cv2.contourArea(contour))
@@ -140,5 +138,5 @@ def recognize():
 		if cv2.waitKey(1) == ord('q'):
 			break
 
-		
+keras_predict(model, np.zeros((50, 50), dtype=np.uint8))		
 recognize()
