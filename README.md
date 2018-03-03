@@ -38,8 +38,7 @@ Before using this repo, let me warn about something. You will have no interactiv
   * On pressing 'c' only the parts of the image which has your skin color should appear on the "res" window. White patches corresponding to this should appear on the "Thresh" window. 
   * In case you are not successful then move your hand a little bit and press 'c' again. Repeat this until you get a good histogram.
   * After you get a good histogram press 's' to save the histogram. All the windows close.
-    
-    python set_hand_hist.py
+
   2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
 
     python create_gestures.py    
