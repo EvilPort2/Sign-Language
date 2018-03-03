@@ -27,7 +27,17 @@ Watch it <a href="https://youtu.be/JNZ7oFaH1fg">here</a>.
 Before using this repo, let me warn about something. You will have no interactive interface that will tell you what to do. So you will have to figure out most of the stuff by yourself and also make some changes to the scripts if the needs arise. But here is a basic gist.
 
 ### Creating a gesture
-  1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions 2-9 <a href="https://github.com/EvilPort2/Simple-OpenCV-Calculator/blob/master/README.md">here</a>.
+   1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
+    
+    python set_hand_hist.py
+
+  * A windows "Set hand histogram" will appear.
+  * "Set hand histogram" will have 50 squares (5x10).
+  * Put your hand in those squares.
+  * Press 'c'. 2 other windows will appear. "res" and "Thresh".
+  * On pressing 'c' only the parts of the image which has your skin color should appear on the "res" window. White patches corresponding to this should appear on the "Thresh" window. 
+  * In case you are not successful then move your hand a little bit and press 'c' again. Repeat this until you get a good histogram.
+  * After you get a good histogram press 's' to save the histogram. All the windows close.
     
     python set_hand_hist.py
   2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
@@ -57,10 +67,21 @@ You do not need to retrain your model every time. In case you added or removed a
 ### Recognizing gestures
 Before going into much details I would like to tell that I was not able to use the model trained using tensorflow. That is because I do not know how to use it. I tried using the predict() function of the Estimator API but that loads the parameters into memory every time it is called which is a huge overhead. Please help me if you can with this. The functions for prediction using tf is tf_predict() which you will find in the recognize_gesture.py file but it is never used.
 This is why I ended up using Keras' model, as the loading the model into memory and using it for prediction is super easy.
-  1. For recognition start the recognize_gesture.py file.
+  1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
+    
+    python set_hand_hist.py
+
+  * A windows "Set hand histogram" will appear.
+  * "Set hand histogram" will have 50 squares (5x10).
+  * Put your hand in those squares.
+  * Press 'c'. 2 other windows will appear. "res" and "Thresh".
+  * On pressing 'c' only the parts of the image which has your skin color should appear on the "res" window. White patches corresponding to this should appear on the "Thresh" window. 
+  * In case you are not successful then move your hand a little bit and press 'c' again. Repeat this until you get a good histogram.
+  * After you get a good histogram press 's' to save the histogram. All the windows close.
+  2. For recognition start the recognize_gesture.py file.
 
     python recognize_gesture.py
-2. You will have a small green box inside which you need to do your gestures.
+3. You will have a small green box inside which you need to do your gestures.
 
 # Got a question?
 If you have any questions that are bothering you please contact me on my <a href = "http://www.facebook.com/dibakar.saha.750">facebook profile</a>. Just do not ask me questions like where do I live, who do I work for etc. Also no questions like what does this line do. If you think a line is redundant or can be removed to make the program better then you can obviously ask me or make a pull request.
