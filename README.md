@@ -1,6 +1,9 @@
 # Sign-Language
 A very simple CNN project.
 
+## Note
+Simple-OpenCV-Calculator and this project are merged to one. Simple-OpenCV-Calculator will no longer be maintained.
+
 ## What I did here
 1. The first thing I did was, I created 10 gesture samples using OpenCV. For each gesture I captured 1200 images which were 50x50 pixels. All theses images were in grayscale which is stored in the gestures/ folder. The gestures/0/ folder contains 1200 blank images which signify "none" gesture. Also I realised that keeping this category increased my model's accuracy to 99% from a laughable 82%.
 2. Learned what a CNN is and how it works. Best resources were <a href="https://www.tensorflow.org/get_started/">Tensorflow's official website</a> and <a href="https://machinelearningmastery.net">machinelearningmastery.net</a>.
@@ -19,26 +22,19 @@ Watch it <a href="https://youtu.be/JNZ7oFaH1fg">here</a>.
 2. <a href="https://keras.io">Keras</a>
 3. OpenCV 3.4
 4. h5py
-5. A good grasp over the above 5 topics along with neural networks. Refer to the internet if you have problems with those. I myself am just a begineer in those.
-6. A good CPU (preferably with a GPU).
-7. Patience.... A lot of it.
+5. pyttsx
+6. thread (Look in stackoverflow.com if you get start_new_thread() not found error)
+7. A good grasp over the above 5 topics along with neural networks. Refer to the internet if you have problems with those. I myself am just a begineer in those.
+8. A good CPU (preferably with a GPU).
+9. Patience.... A lot of it.
 
 ## How to use this repo
 Before using this repo, let me warn about something. You will have no interactive interface that will tell you what to do. So you will have to figure out most of the stuff by yourself and also make some changes to the scripts if the needs arise. But here is a basic gist.
 
 ### Creating a gesture
-   1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
+  1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions 2-9 <a href="https://github.com/EvilPort2/Simple-OpenCV-Calculator/blob/master/README.md">here</a>.
     
     python set_hand_hist.py
-
-  * A windows "Set hand histogram" will appear.
-  * "Set hand histogram" will have 50 squares (5x10).
-  * Put your hand in those squares.
-  * Press 'c'. 2 other windows will appear. "res" and "Thresh".
-  * On pressing 'c' only the parts of the image which has your skin color should appear on the "res" window. White patches corresponding to this should appear on the "Thresh" window. 
-  * In case you are not successful then move your hand a little bit and press 'c' again. Repeat this until you get a good histogram.
-  * After you get a good histogram press 's' to save the histogram. All the windows close.
-
   2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
 
     python create_gestures.py    
@@ -63,10 +59,10 @@ Before using this repo, let me warn about something. You will have no interactiv
 
 You do not need to retrain your model every time. In case you added or removed a gesture then you need to retrain it.
 
-### Recognizing gestures
+### Testing gestures
 Before going into much details I would like to tell that I was not able to use the model trained using tensorflow. That is because I do not know how to use it. I tried using the predict() function of the Estimator API but that loads the parameters into memory every time it is called which is a huge overhead. Please help me if you can with this. The functions for prediction using tf is tf_predict() which you will find in the recognize_gesture.py file but it is never used.
 This is why I ended up using Keras' model, as the loading the model into memory and using it for prediction is super easy.
-  1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
+1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
     
     python set_hand_hist.py
 
@@ -81,6 +77,38 @@ This is why I ended up using Keras' model, as the loading the model into memory 
 
     python recognize_gesture.py
 3. You will have a small green box inside which you need to do your gestures.
+
+### Using fun_util.py
+Here is where you will have all the fun. 
+1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
+    
+    python set_hand_hist.py
+
+  * A windows "Set hand histogram" will appear.
+  * "Set hand histogram" will have 50 squares (5x10).
+  * Put your hand in those squares.
+  * Press 'c'. 2 other windows will appear. "res" and "Thresh".
+  * On pressing 'c' only the parts of the image which has your skin color should appear on the "res" window. White patches corresponding to this should appear on the "Thresh" window. 
+  * In case you are not successful then move your hand a little bit and press 'c' again. Repeat this until you get a good histogram.
+  * After you get a good histogram press 's' to save the histogram. All the windows close.
+  
+  2. Start the file.
+  
+    python fun_util.py
+
+#### Text Mode (Press 't' to go to text mode)
+1. In text mode you can create your own words using fingerspellings or use the predefined gestures.
+2. The text on screen will be converted to speech on removing your hand from the green box
+3. Make sure you keep the same gesture on the green box for 15 frames or else the gesture will not be converted to text.
+
+#### Calculator Mode (Press 'c' to go to calculator mode)
+0. Voice is disabled for this mode. Did not seem much useful to me.
+1. To confirm a digit make sure you keep the same gesture for 20 frames. On successful confirmation, the number will appear in the vertical center of the black part of the window.
+2. To confirm a number make the "best of luck" gesture and keep in the green box for 25 frames. You will get used to the timing :P.
+3. You can have any number of digits for both first number and second number.
+4. Currently there are 10 operators.
+5. During operator selection, 1 means '+', 2 means '-', 3 means '\*', 4 means '/', 5 means '%', 6 means '\*\*', 7 means '>>' or right shift operator, 8 means '<<' or left shift operator, 9 means '&' or bitwise AND and 0 means '|' or bitwise OR.
+
 
 # Got a question?
 If you have any questions that are bothering you please contact me on my <a href = "http://www.facebook.com/dibakar.saha.750">facebook profile</a>. Just do not ask me questions like where do I live, who do I work for etc. Also no questions like what does this line do. If you think a line is redundant or can be removed to make the program better then you can obviously ask me or make a pull request.

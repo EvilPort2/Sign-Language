@@ -89,8 +89,8 @@ def recognize():
 	cam = cv2.VideoCapture(1)
 	hist = get_hand_hist()
 	x, y, w, h = 300, 100, 300, 300
-
 	while True:
+		text = ""
 		img = cam.read()[1]
 		img = cv2.flip(img, 1)
 		imgCrop = img[y:y+h, x:x+w]
@@ -116,17 +116,13 @@ def recognize():
 					save_img = cv2.copyMakeBorder(save_img, int((w1-h1)/2) , int((w1-h1)/2) , 0, 0, cv2.BORDER_CONSTANT, (0, 0, 0))
 				elif h1 > w1:
 					save_img = cv2.copyMakeBorder(save_img, 0, 0, int((h1-w1)/2) , int((h1-w1)/2) , cv2.BORDER_CONSTANT, (0, 0, 0))
-				'''predict(classifier, save_img)
-				print(prediction)
-				classes = prediction['classes']
-				probabilities = prediction['probabilities']
-				print(classes, probabilities)'''
-				#thread.start_new_thread(predict, (classifier, save_img))
-				#print(save_img)
+				
 				pred_probab, pred_class = keras_predict(model, save_img)
 				print(pred_class, pred_probab)
-				if pred_probab*100 > 70:
+				
+				if pred_probab*100 > 80:
 					text = get_pred_text_from_db(pred_class)
+					print(text)
 		blackboard = np.zeros((480, 640, 3), dtype=np.uint8)
 		splitted_text = split_sentence(text, 2)
 		put_splitted_text_in_blackboard(blackboard, splitted_text)

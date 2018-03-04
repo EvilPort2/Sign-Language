@@ -49,3 +49,5 @@ with open("test_images", "wb") as f:
 	pickle.dump(test_images, f)
 with open("test_labels", "wb") as f:
 	pickle.dump(test_labels, f)
+
+
