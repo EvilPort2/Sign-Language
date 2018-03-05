@@ -2,11 +2,13 @@ import cv2, pickle
 import numpy as np
 import tensorflow as tf
 from cnn_tf import cnn_model_fn
-import os, thread
+import os
 import sqlite3, pyttsx3
 from keras.models import load_model
+from threading import Thread
 
 engine = pyttsx3.init()
+engine.setProperty('rate', 150)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 model = load_model('cnn_model_keras2.h5')
 
@@ -49,11 +51,9 @@ def get_pred_from_contour(contour, thresh):
 	elif h1 > w1:
 		save_img = cv2.copyMakeBorder(save_img, 0, 0, int((h1-w1)/2) , int((h1-w1)/2) , cv2.BORDER_CONSTANT, (0, 0, 0))
 	pred_probab, pred_class = keras_predict(model, save_img)
-	print(pred_class, pred_probab)
-	if pred_probab*100 > 80:
+	if pred_probab*100 > 70:
 		text = get_pred_text_from_db(pred_class)
 	return text
-
 
 def get_operator(pred_text):
 	try:
@@ -85,6 +85,7 @@ def get_operator(pred_text):
 
 hist = get_hand_hist()
 x, y, w, h = 300, 100, 300, 300
+is_voice_on = True
 
 def get_img_contour_thresh(img):
 	img = cv2.flip(img, 1)
@@ -101,13 +102,23 @@ def get_img_contour_thresh(img):
 	contours = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[1]
 	return img, contours, thresh
 
+def say_text(text):
+	if not is_voice_on:
+		return
+	while engine._inLoop:
+		pass
+	engine.say(text)
+	engine.runAndWait()
+
 def calculator_mode(cam):
+	global is_voice_on
 	flag = {"first": False, "operator": False, "second": False, "clear": False}
 	count_same_frames = 0
 	first, operator, second = "", "", ""
 	pred_text = ""
 	calc_text = ""
 	info = "Enter first number"
+	Thread(target=say_text, args=(info,)).start()
 	count_clear_frames = 0
 	while True:
 		img = cam.read()[1]
@@ -128,6 +139,7 @@ def calculator_mode(cam):
 						first, second, operator, pred_text, calc_text = '', '', '', '', ''
 						flag['first'], flag['operator'], flag['second'], flag['clear'] = False, False, False, False
 						info = "Enter first number"
+						Thread(target=say_text, args=(info,)).start()
 
 				elif pred_text == "Best of Luck " and count_same_frames > 15:
 					count_same_frames = 0
@@ -135,21 +147,37 @@ def calculator_mode(cam):
 						first, second, operator, pred_text, calc_text = '', '', '', '', ''
 						flag['first'], flag['operator'], flag['second'], flag['clear'] = False, False, False, False
 						info = "Enter first number"
+						Thread(target=say_text, args=(info,)).start()
 					elif second != '':
 						flag['second'] = True
 						info = "Clear screen"
+						#Thread(target=say_text, args=(info,)).start()
 						second = ''
 						flag['clear'] = True
 						calc_text += "= "+str(eval(calc_text))
+						if is_voice_on:
+							speech = calc_text
+							speech = speech.replace('-', ' minus ')
+							speech = speech.replace('/', ' divided by ')
+							speech = speech.replace('**', ' raised to the power ')
+							speech = speech.replace('*', ' multiplied by ')
+							speech = speech.replace('%', ' mod ')
+							speech = speech.replace('>>', ' bitwise right shift ')
+							speech = speech.replace('<<', ' bitwise leftt shift ')
+							speech = speech.replace('&', ' bitwise and ')
+							speech = speech.replace('|', ' bitwise or ')
+							Thread(target=say_text, args=(speech,)).start()
 					elif first != '':
 						flag['first'] = True
 						info = "Enter operator"
+						Thread(target=say_text, args=(info,)).start()
 						first = ''
 
 				elif pred_text != "Best of Luck " and pred_text.isnumeric():
 					if flag['first'] == False:
 						if count_same_frames > 15:
 							count_same_frames = 0
+							Thread(target=say_text, args=(pred_text,)).start()
 							first += pred_text
 							calc_text += pred_text
 					elif flag['operator'] == False:
@@ -159,9 +187,11 @@ def calculator_mode(cam):
 							flag['operator'] = True
 							calc_text += operator
 							info = "Enter second number"
+							Thread(target=say_text, args=(info,)).start()
 							operator = ''
 					elif flag['second'] == False:
 						if count_same_frames > 15:
+							Thread(target=say_text, args=(pred_text,)).start()
 							second += pred_text
 							calc_text += pred_text
 							count_same_frames = 0	
@@ -170,6 +200,7 @@ def calculator_mode(cam):
 			first, second, operator, pred_text, calc_text = '', '', '', '', ''
 			flag['first'], flag['operator'], flag['second'], flag['clear'] = False, False, False, False
 			info = "Enter first number"
+			Thread(target=say_text, args=(info,)).start()
 			count_clear_frames = 0
 
 		blackboard = np.zeros((480, 640, 3), dtype=np.uint8)
@@ -178,6 +209,10 @@ def calculator_mode(cam):
 		cv2.putText(blackboard, "Operator " + operator, (30, 140), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 255, 127))
 		cv2.putText(blackboard, calc_text, (30, 240), cv2.FONT_HERSHEY_TRIPLEX, 2, (255, 255, 255))
 		cv2.putText(blackboard, info, (30, 440), cv2.FONT_HERSHEY_TRIPLEX, 1, (0, 255, 255) )
+		if is_voice_on:
+			cv2.putText(blackboard, "Voice on", (450, 440), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 127, 0))
+		else:
+			cv2.putText(blackboard, "Voice off", (450, 440), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 127, 0))
 		cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0), 2)
 		res = np.hstack((img, blackboard))
 		cv2.imshow("Recognizing gesture", res)
@@ -185,6 +220,10 @@ def calculator_mode(cam):
 		keypress = cv2.waitKey(1)
 		if keypress == ord('q') or keypress == ord('t'):
 			break
+		if keypress == ord('v') and is_voice_on:
+			is_voice_on = False
+		elif keypress == ord('v') and not is_voice_on:
+			is_voice_on = True
 
 	if keypress == ord('t'):
 		return 1
@@ -192,6 +231,7 @@ def calculator_mode(cam):
 		return 0
 
 def text_mode(cam):
+	global is_voice_on
 	text = ""
 	word = ""
 	count_same_frame = 0
@@ -208,7 +248,9 @@ def text_mode(cam):
 				else:
 					count_same_frame = 0
 
-				if count_same_frame > 15:
+				if count_same_frame > 20:
+					if len(text) == 1:
+						Thread(target=say_text, args=(text, )).start()
 					word = word + text
 					if word.startswith('I/Me '):
 						word = word.replace('I/Me ', 'I ')
@@ -218,20 +260,26 @@ def text_mode(cam):
 
 			elif cv2.contourArea(contour) < 1000:
 				if word != '':
-					engine.say(word)
-					thread.start_new_thread(engine.runAndWait, ())
+					#print('yolo')
+					#say_text(text)
+					Thread(target=say_text, args=(word, )).start()
 				text = ""
 				word = ""
 		else:
 			if word != '':
-				engine.say(word)
-				thread.start_new_thread(engine.runAndWait, ())
+				#print('yolo1')
+				#say_text(text)
+				Thread(target=say_text, args=(word, )).start()
 			text = ""
 			word = ""
 		blackboard = np.zeros((480, 640, 3), dtype=np.uint8)
 		cv2.putText(blackboard, "Text Mode", (180, 50), cv2.FONT_HERSHEY_TRIPLEX, 1.5, (255, 0,0))
 		cv2.putText(blackboard, "Predicted text- " + text, (30, 100), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 255, 0))
 		cv2.putText(blackboard, word, (30, 240), cv2.FONT_HERSHEY_TRIPLEX, 2, (255, 255, 255))
+		if is_voice_on:
+			cv2.putText(blackboard, "Voice on", (450, 440), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 127, 0))
+		else:
+			cv2.putText(blackboard, "Voice off", (450, 440), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 127, 0))
 		cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0), 2)
 		res = np.hstack((img, blackboard))
 		cv2.imshow("Recognizing gesture", res)
@@ -239,6 +287,10 @@ def text_mode(cam):
 		keypress = cv2.waitKey(1)
 		if keypress == ord('q') or keypress == ord('c'):
 			break
+		if keypress == ord('v') and is_voice_on:
+			is_voice_on = False
+		elif keypress == ord('v') and not is_voice_on:
+			is_voice_on = True
 
 	if keypress == ord('c'):
 		return 2

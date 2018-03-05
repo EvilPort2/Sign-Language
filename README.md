@@ -9,7 +9,7 @@ Simple-OpenCV-Calculator and this project are merged to one. Simple-OpenCV-Calcu
 2. Learned what a CNN is and how it works. Best resources were <a href="https://www.tensorflow.org/get_started/">Tensorflow's official website</a> and <a href="https://machinelearningmastery.net">machinelearningmastery.net</a>.
 3. Created a CNN which look a lot similar to <a href="https://www.tensorflow.org/tutorials/layers">this MNIST classifying model</a> using both Tensorflow and Keras. If you want to add more gestures you might need to add your own layers and also tweak some parameters, that you have to do on your own.
 4. Then used the model which was trained using Keras on a video stream.
-5. As of today, I have stored the 26 gestures for alphabets of American Sign language. And trained the model on these images.
+5. As of today, I have stored the 45 gestures for which are 26 alphabets and 10 numbers of American Sign language and some other gestures. And trained the model on these images.
 
 There are a lot of details that I left. But these are the basic and main steps.
 
@@ -22,7 +22,7 @@ Watch it <a href="https://youtu.be/JNZ7oFaH1fg">here</a>.
 2. <a href="https://keras.io">Keras</a>
 3. OpenCV 3.4
 4. h5py
-5. pyttsx
+5. pyttsx3
 6. thread (Look in stackoverflow.com if you get start_new_thread() not found error)
 7. A good grasp over the above 5 topics along with neural networks. Refer to the internet if you have problems with those. I myself am just a begineer in those.
 8. A good CPU (preferably with a GPU).
@@ -102,7 +102,6 @@ Here is where you will have all the fun.
 3. Make sure you keep the same gesture on the green box for 15 frames or else the gesture will not be converted to text.
 
 #### Calculator Mode (Press 'c' to go to calculator mode)
-0. Voice is disabled for this mode. Did not seem much useful to me.
 1. To confirm a digit make sure you keep the same gesture for 20 frames. On successful confirmation, the number will appear in the vertical center of the black part of the window.
 2. To confirm a number make the "best of luck" gesture and keep in the green box for 25 frames. You will get used to the timing :P.
 3. You can have any number of digits for both first number and second number.
