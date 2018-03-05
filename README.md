@@ -23,10 +23,9 @@ Watch it <a href="https://youtu.be/JNZ7oFaH1fg">here</a>.
 3. OpenCV 3.4
 4. h5py
 5. pyttsx3
-6. thread (Look in stackoverflow.com if you get start_new_thread() not found error)
-7. A good grasp over the above 5 topics along with neural networks. Refer to the internet if you have problems with those. I myself am just a begineer in those.
-8. A good CPU (preferably with a GPU).
-9. Patience.... A lot of it.
+6. A good grasp over the above 5 topics along with neural networks. Refer to the internet if you have problems with those. I myself am just a begineer in those.
+7. A good CPU (preferably with a GPU).
+8. Patience.... A lot of it.
 
 ## How to use this repo
 Before using this repo, let me warn about something. You will have no interactive interface that will tell you what to do. So you will have to figure out most of the stuff by yourself and also make some changes to the scripts if the needs arise. But here is a basic gist.
