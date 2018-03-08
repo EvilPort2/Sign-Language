@@ -61,7 +61,7 @@ You do not need to retrain your model every time. In case you added or removed a
 ### Testing gestures
 Before going into much details I would like to tell that I was not able to use the model trained using tensorflow. That is because I do not know how to use it. I tried using the predict() function of the Estimator API but that loads the parameters into memory every time it is called which is a huge overhead. Please help me if you can with this. The functions for prediction using tf is tf_predict() which you will find in the recognize_gesture.py file but it is never used.
 This is why I ended up using Keras' model, as the loading the model into memory and using it for prediction is super easy.
-1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
+  1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
     
     python set_hand_hist.py
 
@@ -79,7 +79,7 @@ This is why I ended up using Keras' model, as the loading the model into memory 
 
 ### Using fun_util.py
 Here is where you will have all the fun. 
-1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
+  1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
     
     python set_hand_hist.py
 
