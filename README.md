@@ -51,7 +51,6 @@ Before using this repo, let me warn about something. You will have no interactiv
   4. When you are done adding new gestures run the load_images.py file once. You do not need to run this file again until and unless you add a new gesture.
     
     python load_images.py
-5. Do not forget to update the num_of_classes variable in cnn_tf.py and cnn_keras.py file if you add any new gestures.
 
 ### Displaying all gestures
   1. To see all the gestures that are stored in 'gestures/' folder run this command
