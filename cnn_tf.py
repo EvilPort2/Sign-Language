@@ -1,11 +1,21 @@
 import tensorflow as tf
 import numpy as np
-import pickle
+import pickle, os, cv2
 
 tf.logging.set_verbosity(tf.logging.INFO)
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+def get_image_size():
+	img = cv2.imread('gestures/0/100.jpg', 0)
+	return img.shape
+
+def get_num_of_classes():
+	return len(os.listdir('gestures/'))
+
+image_x, image_y = get_image_size()
 
 def cnn_model_fn(features, labels, mode):
-	input_layer = tf.reshape(features["x"], [-1, 30, 30, 1], name="input")
+	input_layer = tf.reshape(features["x"], [-1, image_x, image_y, 1], name="input")
 
 	conv1 = tf.layers.conv2d(
 	  inputs=input_layer,
@@ -26,7 +36,7 @@ def cnn_model_fn(features, labels, mode):
 	  activation=tf.nn.relu,
 	  name="conv2")
 	print("conv2",conv2.shape)
-	pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[3, 3], strides=3, name="pool2")
+	pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[5, 5], strides=5, name="pool2")
 	print("pool2",pool2.shape)
 
 	# Dense Layer
@@ -37,7 +47,7 @@ def cnn_model_fn(features, labels, mode):
 	dropout = tf.layers.dropout(inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN, name="dropout")
 
 	# Logits Layer
-	num_of_classes = 27
+	num_of_classes = get_num_of_classes()
 	logits = tf.layers.dense(inputs=dropout, units=num_of_classes, name="logits")
 
 	output_class = tf.argmax(input=logits, axis=1, name="output_class")
@@ -53,7 +63,7 @@ def cnn_model_fn(features, labels, mode):
 
 	# Configure the Training Op (for TRAIN mode)
 	if mode == tf.estimator.ModeKeys.TRAIN:
-		optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-6)
+		optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-3)
 		train_op = optimizer.minimize(loss=loss, global_step=tf.train.get_global_step())
 		return tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)
 
@@ -79,7 +89,7 @@ def main(argv):
 	logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=50)
 
 	train_input_fn = tf.estimator.inputs.numpy_input_fn(x={"x": train_images}, y=train_labels, batch_size=100, num_epochs=None, shuffle=True)
-	classifier.train(input_fn=train_input_fn, steps=10000, hooks=[logging_hook])
+	classifier.train(input_fn=train_input_fn, steps=1500, hooks=[logging_hook])
 
 	# Evaluate the model and print results
 	eval_input_fn = tf.estimator.inputs.numpy_input_fn(
