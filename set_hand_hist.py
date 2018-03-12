@@ -24,6 +24,7 @@ def get_hand_hist():
 		cam = cv2.VideoCapture(0)
 	x, y, w, h = 300, 100, 300, 300
 	flagPressedC, flagPressedS = False, False
+	imgCrop = None
 	while True:
 		img = cam.read()[1]
 		img = cv2.flip(img, 1)
