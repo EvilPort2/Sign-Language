@@ -29,7 +29,7 @@ def tf_predict(classifier, image):
 	need help with prediction using tensorflow
 	'''
 	global prediction
-	processed_array = process_image(image)
+	processed_array = tf_process_image(image)
 	pred_input_fn = tf.estimator.inputs.numpy_input_fn(x={"x":processed_array}, shuffle=False)
 	pred = classifier.predict(input_fn=pred_input_fn)
 	prediction = next(pred)
