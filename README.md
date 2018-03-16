@@ -27,6 +27,16 @@ Watch it <a href="https://youtu.be/JNZ7oFaH1fg">here</a>.
 7. A good CPU (preferably with a GPU).
 8. Patience.... A lot of it.
 
+## Installing the requirements
+1. Start your terminal of cmd depending on your os.
+  2. If you have a NVidia GPU then make sure you have the prerequisites for Tensorflow GPU installation (Refer to official site). Then use this commmand
+
+    pip install -r requirements_gpu.txt
+
+  3. In case you do not have a GPU then use this command
+
+    pip install -r requirements_cpu.txt
+
 ## How to use this repo
 Before using this repo, let me warn about something. You will have no interactive interface that will tell you what to do. So you will have to figure out most of the stuff by yourself and also make some changes to the scripts if the needs arise. But here is a basic gist.
 
