@@ -47,7 +47,7 @@ Before using this repo, let me warn about something. You will have no interactiv
 
   * A windows "Set hand histogram" will appear.
   * "Set hand histogram" will have 50 squares (5x10).
-  * Put your hand in those squares.
+  * Put your hand in those squares. Make sure your hand covers all the squares.
   * Press 'c'. 1 other window will appear "Thresh".
   * On pressing 'c' only white patches corresponding to the parts of the image which has your skin color should appear on the "Thresh" window. 
   * Make sure all the squares are covered by your hand.
@@ -86,7 +86,7 @@ This is why I ended up using Keras' model, as the loading the model into memory 
 
   * A windows "Set hand histogram" will appear.
   * "Set hand histogram" will have 50 squares (5x10).
-  * Put your hand in those squares.
+  * Put your hand in those squares. Make sure your hand covers all the squares.
   * Press 'c'. 1 other window will appear "Thresh".
   * On pressing 'c' only white patches corresponding to the parts of the image which has your skin color should appear on the "Thresh" window. 
   * Make sure all the squares are covered by your hand.
