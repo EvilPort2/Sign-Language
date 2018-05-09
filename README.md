@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/122105084.svg)](https://zenodo.org/badge/latestdoi/122105084)
+
 # Sign-Language
 A very simple CNN project.
 

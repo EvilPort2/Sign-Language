@@ -38,4 +38,5 @@ for i in range(rows):
 
 
 cv2.imshow("gestures", full_img)
+cv2.imwrite('full_img.jpg', full_img)
 cv2.waitKey(0)
