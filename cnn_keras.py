@@ -68,3 +68,4 @@ def train():
 	#model.save('cnn_model_keras2.h5')
 
 train()
+K.clear_session();
