@@ -8,7 +8,7 @@ Simple-OpenCV-Calculator and this project are merged to one. Simple-OpenCV-Calcu
 
 ## What I did here
 1. The first thing I did was, I created 10 gesture samples using OpenCV. For each gesture I captured 1200 images which were 50x50 pixels. All theses images were in grayscale which is stored in the gestures/ folder. The gestures/0/ folder contains 1200 blank images which signify "none" gesture. Also I realised that keeping this category increased my model's accuracy to 99% from a laughable 82%.
-2. Learned what a CNN is and how it works. Best resources were <a href="https://www.tensorflow.org/get_started/">Tensorflow's official website</a> and <a href="https://machinelearningmastery.net">machinelearningmastery.net</a>.
+2. Learned what a CNN is and how it works. Best resources were <a href="https://www.tensorflow.org/get_started/">Tensorflow's official website</a> and <a href="https://machinelearningmastery.com">machinelearningmastery.com</a>.
 3. Created a CNN which look a lot similar to <a href="https://www.tensorflow.org/tutorials/layers">this MNIST classifying model</a> using both Tensorflow and Keras. If you want to add more gestures you might need to add your own layers and also tweak some parameters, that you have to do on your own.
 4. Then used the model which was trained using Keras on a video stream.
 5. As of today, I have stored the 45 gestures for which are 26 alphabets and 10 numbers of American Sign language and some other gestures. And trained the model on these images.
