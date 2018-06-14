@@ -10,11 +10,12 @@ def pickle_images_labels():
 	images = []
 	labels = []
 	for g_id in os.listdir(gest_folder):
-		for i in range(1200):
+		for i in range(2400):
+			print("LOADING", gest_folder+"/"+g_id+"/"+str(i+1)+".jpg")
 			img = cv2.imread(gest_folder+"/"+g_id+"/"+str(i+1)+".jpg", 0)
 			if np.any(img == None):
 				continue
-			images_labels.append((np.array(img, dtype=np.float32), int(g_id)))
+			images_labels.append((np.array(img, dtype=np.uint8), int(g_id)))
 	return images_labels
 
 def split_images_labels(images_labels):
@@ -26,7 +27,7 @@ def split_images_labels(images_labels):
 	return images, labels
 
 images_labels = pickle_images_labels()
-images_labels = shuffle(shuffle(shuffle(images_labels)))
+images_labels = shuffle(shuffle(shuffle(shuffle(images_labels))))
 images, labels = split_images_labels(images_labels)
 print("Length of images_labels", len(images_labels))
 
