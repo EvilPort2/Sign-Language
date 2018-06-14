@@ -7,11 +7,11 @@ A very simple CNN project.
 Simple-OpenCV-Calculator and this project are merged to one. Simple-OpenCV-Calculator will no longer be maintained.
 
 ## What I did here
-1. The first thing I did was, I created 10 gesture samples using OpenCV. For each gesture I captured 1200 images which were 50x50 pixels. All theses images were in grayscale which is stored in the gestures/ folder. The gestures/0/ folder contains 1200 blank images which signify "none" gesture. Also I realised that keeping this category increased my model's accuracy to 99% from a laughable 82%.
+1. The first thing I did was, I created 10 gesture samples using OpenCV. For each gesture I captured 1200 images which were 50x50 pixels. All theses images were in grayscale which is stored in the gestures/ folder. The pictures were flipped using flip_images.py. This script flips every image along the vertical axis. Hence each gesture has 2400 images.
 2. Learned what a CNN is and how it works. Best resources were <a href="https://www.tensorflow.org/get_started/">Tensorflow's official website</a> and <a href="https://machinelearningmastery.com">machinelearningmastery.com</a>.
 3. Created a CNN which look a lot similar to <a href="https://www.tensorflow.org/tutorials/layers">this MNIST classifying model</a> using both Tensorflow and Keras. If you want to add more gestures you might need to add your own layers and also tweak some parameters, that you have to do on your own.
 4. Then used the model which was trained using Keras on a video stream.
-5. As of today, I have stored the 45 gestures for which are 26 alphabets and 10 numbers of American Sign language and some other gestures. And trained the model on these images.
+5. As of today, I have stored the 44 gestures for which are 26 alphabets and 10 numbers of American Sign language and some other gestures. And trained the model on these images.
 
 There are a lot of details that I left. But these are the basic and main steps.
 
@@ -56,10 +56,16 @@ Before using this repo, let me warn about something. You will have no interactiv
   * In case you are not successful then move your hand a little bit and press 'c' again. Repeat this until you get a good histogram.
   * After you get a good histogram press 's' to save the histogram. All the windows close.
   
-  2. The next thing you need to do is create your gestures. That is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
+  2. I already have added 44 (0-43) gestures. It is on you if you want to add even more gestures or replace my gestures. Hence this step is <b>OPTIONAL</b>. To create your own gestures or replace my gestures do the following. It is done by the command given below. On starting executing this program, you will have to enter the gesture number and gesture name/text. Then an OpenCV window called "Capturing gestures" which will appear. In the webcam feed you will see a green window (inside which you will have to do your gesture) and a counter that counts the number of pictures stored.
 
-    python create_gestures.py    
-3. Press 'c' when you are ready with your gesture. Capturing gesture will begin after a few seconds. Move your hand a little bit here and there. You can pause capturing by pressing 'c' and resume it by pressing 'c'. Capturing resumes after a few secondAfter the counter reaches 1200 the window will close automatically.
+    python create_gestures.py   
+
+  3. Press 'c' when you are ready with your gesture. Capturing gesture will begin after a few seconds. Move your hand a little bit here and there. You can pause capturing by pressing 'c' and resume it by pressing 'c'. Capturing resumes after a few secondAfter the counter reaches 1200 the window will close automatically.
+
+  After capturing all the gestures you can flip the images using
+
+    python flip_images.py
+
   4. When you are done adding new gestures run the load_images.py file once. You do not need to run this file again until and unless you add a new gesture.
     
     python load_images.py
@@ -75,7 +81,7 @@ Before using this repo, let me warn about something. You will have no interactiv
     python cnn_tf.py
     python cnn_keras.py
 2. If you use Tensorflow you will have the checkpoints and the metagraph file in the tmp/cnn_model3 folder.
-3. If you use Keras you will have the model in the root directory by the name cnn_keras2.h5.
+3. If you use Keras you will have the model in the root directory by the name cnn_model_keras2.h5.
 
 You do not need to retrain your model every time. In case you added or removed a gesture then you need to retrain it.
 
