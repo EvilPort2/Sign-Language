@@ -23,12 +23,6 @@ def create_folder(folder_name):
 	if not os.path.exists(folder_name):
 		os.mkdir(folder_name)
 
-def create_empty_images(folder_name, n_images):
-	create_folder("gestures/"+folder_name)
-	black = np.zeros(shape=(image_x, image_y, 1), dtype=np.uint8)
-	for i in range(n_images):
-		cv2.imwrite("gestures/"+folder_name+"/"+str(i+1)+".jpg", black)
-
 def store_in_db(g_id, g_name):
 	conn = sqlite3.connect("gesture_db.db")
 	cmd = "INSERT INTO gesture (g_id, g_name) VALUES (%s, \'%s\')" % (g_id, g_name)
@@ -46,9 +40,6 @@ def store_in_db(g_id, g_name):
 	
 def store_images(g_id):
 	total_pics = 1200
-	if g_id == str(0):
-		create_empty_images("0", total_pics)
-		return
 	hist = get_hand_hist()
 	cam = cv2.VideoCapture(1)
 	if cam.read()[0]==False:
