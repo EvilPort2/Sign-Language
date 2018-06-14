@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import pickle, os, sqlite3
+import pickle, os, sqlite3, random
 
 image_x, image_y = 50, 50
 
@@ -86,6 +86,9 @@ def store_images(g_id):
 				elif h1 > w1:
 					save_img = cv2.copyMakeBorder(save_img, 0, 0, int((h1-w1)/2) , int((h1-w1)/2) , cv2.BORDER_CONSTANT, (0, 0, 0))
 				save_img = cv2.resize(save_img, (image_x, image_y))
+				rand = random.randint(0, 10)
+				if rand % 2 == 0:
+					save_img = cv2.flip(save_img, 1)
 				cv2.putText(img, "Capturing...", (30, 60), cv2.FONT_HERSHEY_TRIPLEX, 2, (127, 255, 255))
 				cv2.imwrite("gestures/"+str(g_id)+"/"+str(pic_no)+".jpg", save_img)
 

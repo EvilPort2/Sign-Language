@@ -19,8 +19,8 @@ def cnn_model_fn(features, labels, mode):
 
 	conv1 = tf.layers.conv2d(
 	  inputs=input_layer,
-	  filters=32,
-	  kernel_size=[5, 5],
+	  filters=16,
+	  kernel_size=[2, 2],
 	  padding="same",
 	  activation=tf.nn.relu,
 	  name="conv1")
@@ -30,7 +30,7 @@ def cnn_model_fn(features, labels, mode):
 
 	conv2 = tf.layers.conv2d(
 	  inputs=pool1,
-	  filters=64,
+	  filters=32,
 	  kernel_size=[5, 5],
 	  padding="same",
 	  activation=tf.nn.relu,
@@ -39,12 +39,21 @@ def cnn_model_fn(features, labels, mode):
 	pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[5, 5], strides=5, name="pool2")
 	print("pool2",pool2.shape)
 
+	conv3 = tf.layers.conv2d(
+	  inputs=pool2,
+	  filters=64,
+	  kernel_size=[5, 5],
+	  padding="same",
+	  activation=tf.nn.relu,
+	  name="conv3")
+	print("conv3",conv3.shape)
+
 	# Dense Layer
-	pool2_flat = tf.reshape(pool2, [-1, 5*5*64], name="pool2_flat")
-	print(pool2_flat.shape)
-	dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu, name="dense")
+	flat = tf.reshape(conv3, [-1, 5*5*64], name="flat")
+	print(flat.shape)
+	dense = tf.layers.dense(inputs=flat, units=128, activation=tf.nn.relu, name="dense")
 	print(dense.shape)
-	dropout = tf.layers.dropout(inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN, name="dropout")
+	dropout = tf.layers.dropout(inputs=dense, rate=0.2, training=mode == tf.estimator.ModeKeys.TRAIN, name="dropout")
 
 	# Logits Layer
 	num_of_classes = get_num_of_classes()
@@ -63,7 +72,7 @@ def cnn_model_fn(features, labels, mode):
 
 	# Configure the Training Op (for TRAIN mode)
 	if mode == tf.estimator.ModeKeys.TRAIN:
-		optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-3)
+		optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-2)
 		train_op = optimizer.minimize(loss=loss, global_step=tf.train.get_global_step())
 		return tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)
 
@@ -88,8 +97,8 @@ def main(argv):
 	tensors_to_log = {"probabilities": "softmax_tensor"}
 	logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=50)
 
-	train_input_fn = tf.estimator.inputs.numpy_input_fn(x={"x": train_images}, y=train_labels, batch_size=100, num_epochs=None, shuffle=True)
-	classifier.train(input_fn=train_input_fn, steps=1500, hooks=[logging_hook])
+	train_input_fn = tf.estimator.inputs.numpy_input_fn(x={"x": train_images}, y=train_labels, batch_size=500, num_epochs=10, shuffle=True)
+	classifier.train(input_fn=train_input_fn, hooks=[logging_hook])
 
 	# Evaluate the model and print results
 	eval_input_fn = tf.estimator.inputs.numpy_input_fn(
