@@ -2,8 +2,7 @@ from keras.models import load_model
 from sklearn.metrics import classification_report, confusion_matrix
 import pickle
 import numpy as np
-import seaborn as sn
-import pandas as pd
+import time
 import matplotlib.pyplot as plt
 
 def plot_confusion_matrix(cm,
@@ -93,7 +92,15 @@ test_images = np.reshape(test_images, (test_images.shape[0], image_x, image_y, 1
 
 model = load_model('cnn_model_keras2.h5')
 pred_labels = []
+
+start_time = time.time()
 pred_probabs = model.predict(test_images)
+end_time = time.time()
+pred_time = end_time-start_time
+avg_pred_time = pred_time/test_images.shape[0]
+print("Time taken to predict %d test images is %ds" %(test_images.shape[0], pred_time))
+print('Average prediction time: %fs' % (avg_pred_time))
+
 for pred_probab in pred_probabs:
 	pred_labels.append(list(pred_probab).index(max(pred_probab)))
 
