@@ -42,7 +42,8 @@ Watch it <a href="https://youtu.be/JNZ7oFaH1fg">here</a>.
 ## How to use this repo
 Before using this repo, let me warn about something. You will have no interactive interface that will tell you what to do. So you will have to figure out most of the stuff by yourself and also make some changes to the scripts if the needs arise. But here is a basic gist.
 
-### Creating a gesture
+### Creating a gesture 
+  0. Watch the video guide <a href='https://youtu.be/KYfBLeYDMW4'>here</a>.
   1. First set your hand histogram. You do not need to do it again if you have already done it. But you do need to do it if the lighting conditions change. To do so type the command given below and follow the instructions below.
     
     python set_hand_hist.py
