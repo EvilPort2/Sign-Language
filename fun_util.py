@@ -154,7 +154,10 @@ def calculator_mode(cam):
 						#Thread(target=say_text, args=(info,)).start()
 						second = ''
 						flag['clear'] = True
-						calc_text += "= "+str(eval(calc_text))
+						try:
+							calc_text += "= "+str(eval(calc_text))
+						except:
+							calc_text = "Invalid operation"
 						if is_voice_on:
 							speech = calc_text
 							speech = speech.replace('-', ' minus ')
