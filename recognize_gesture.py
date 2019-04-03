@@ -107,7 +107,7 @@ def recognize():
 		thresh = cv2.merge((thresh,thresh,thresh))
 		thresh = cv2.cvtColor(thresh, cv2.COLOR_BGR2GRAY)
 		thresh = thresh[y:y+h, x:x+w]
-		contours = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[1]
+		contours = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[0]
 		if len(contours) > 0:
 			contour = max(contours, key = cv2.contourArea)
 			#print(cv2.contourArea(contour))

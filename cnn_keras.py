@@ -42,7 +42,6 @@ def cnn_model():
 	model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 	filepath="cnn_model_keras2.h5"
 	checkpoint1 = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-	#checkpoint2 = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
 	callbacks_list = [checkpoint1]
 	from keras.utils import plot_model
 	plot_model(model, to_file='model.png', show_shapes=True)
