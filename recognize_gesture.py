@@ -95,6 +95,7 @@ def recognize():
 		text = ""
 		img = cam.read()[1]
 		img = cv2.flip(img, 1)
+		img = cv2.resize(img, (640, 480))
 		imgCrop = img[y:y+h, x:x+w]
 		imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		dst = cv2.calcBackProject([imgHSV], [0, 1], hist, [0, 180, 0, 256], 1)
@@ -120,7 +121,6 @@ def recognize():
 					save_img = cv2.copyMakeBorder(save_img, 0, 0, int((h1-w1)/2) , int((h1-w1)/2) , cv2.BORDER_CONSTANT, (0, 0, 0))
 				
 				pred_probab, pred_class = keras_predict(model, save_img)
-				print(pred_class, pred_probab)
 				
 				if pred_probab*100 > 80:
 					text = get_pred_text_from_db(pred_class)

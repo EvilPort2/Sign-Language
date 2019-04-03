@@ -122,6 +122,7 @@ def calculator_mode(cam):
 	count_clear_frames = 0
 	while True:
 		img = cam.read()[1]
+		img = cv2.resize(img, (640, 480))
 		img, contours, thresh = get_img_contour_thresh(img)
 		old_pred_text = pred_text
 		if len(contours) > 0:
@@ -240,6 +241,7 @@ def text_mode(cam):
 	count_same_frame = 0
 	while True:
 		img = cam.read()[1]
+		img = cv2.resize(img, (640, 480))
 		img, contours, thresh = get_img_contour_thresh(img)
 		old_text = text
 		if len(contours) > 0:
